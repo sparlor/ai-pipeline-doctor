@@ -1,0 +1,34 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+debug.log
+drift.log
+.terraform.lock.hcl
+
+# Local .tfvars files
+*.tfvars
+*.tfvars.json
+
+# Sensitive files
+*.pem
+*.key
+*.crt
+*.env
+
+# Editor and OS files
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Python virtual environments
+venv/
+__pycache__/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
