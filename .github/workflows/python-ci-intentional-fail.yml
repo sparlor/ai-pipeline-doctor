@@ -31,18 +31,18 @@ jobs:
         run: |
           pytest | tee pytest-output.txt
         continue-on-error: true
-
-      - name: Create failure_context.json
-        if: always()
-        run: |
-          python scripts/analyze_failure.py pytest-output.txt failure_context.json
-
+        
       - name: Configure AWS credentials
         if: always()
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github-actions-bedrock-role
           aws-region: us-east-1
+
+      - name: Create failure_context.json
+        if: always()
+        run: |
+          python scripts/analyze_failure.py pytest-output.txt failure_context.json
 
       - name: AI Analysis
         if: always()
