@@ -13,6 +13,7 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
+    continue-on-error: false
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -29,11 +30,9 @@ jobs:
 
       - name: Run pytest (intentional fail)
         id: pytest
+        continue-on-error: true
         run: |
-          set +e
           pytest | tee pytest-output.txt
-          echo "PYTEST_EXIT_CODE=$?" >> $GITHUB_ENV
-          exit 0
         
       - name: Configure AWS credentials
         if: always()
@@ -53,6 +52,12 @@ jobs:
           python scripts/analyze_failure.py failure_context.json analysis-output.json
           cat analysis-output.json
           python scripts/print_markdown_summary.py analysis-output.json >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Fail if any previous step failed
+        if: failure() && always()
+        run: |
+          echo "A previous step failed. Failing the pipeline after AI analysis."
+          exit 1
 
       - name: Fail if tests failed
         if: env.PYTEST_EXIT_CODE != '0'
