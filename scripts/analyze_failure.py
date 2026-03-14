@@ -91,7 +91,7 @@ def main():
             modelId=model_id,
             contentType="application/json",
             accept="application/json",
-            body=json.dumps({"prompt": prompt, "max_tokens": 512})
+            body=json.dumps({"prompt": prompt, "max_tokens_to_sample": 512})
         )
         result_json = json.loads(response["body"].read())
         ai_output = result_json.get("completion", "")

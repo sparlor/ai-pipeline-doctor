@@ -44,9 +44,9 @@ jobs:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github-actions-bedrock-role
           aws-region: us-east-1
 
-      - name: AI Analysis (Bedrock Claude)
+      - name: AI Analysis
         if: always()
         run: |
           python scripts/analyze_failure.py failure_context.json analysis-output.json
           cat analysis-output.json
-          python scripts/print_bedrock_markdown_summary.py analysis-output.json
+          python scripts/print_markdown_summary.py analysis-output.json >> "$GITHUB_STEP_SUMMARY"
