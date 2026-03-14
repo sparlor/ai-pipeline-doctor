@@ -32,7 +32,7 @@ jobs:
         id: pytest
         continue-on-error: true
         env:
-          PYTHONPATH: app
+          PYTHONPATH: .:app
         run: |
           pytest | tee pytest-output.txt
         
