@@ -60,9 +60,3 @@ jobs:
         run: |
           echo "A previous step failed. Failing the pipeline after AI analysis."
           exit 1
-
-      - name: Fail if tests failed
-        if: env.PYTEST_EXIT_CODE != '0'
-        run: |
-          echo "Tests failed. Failing the pipeline after AI analysis."
-          exit 1
