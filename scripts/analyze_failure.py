@@ -71,7 +71,7 @@ def main():
 
     # Build prompt for Bedrock Claude
     prompt = (
-        "You are a DevOps CI failure analyzer.\n"
+        "\n\nHuman: You are a DevOps CI failure analyzer.\n"
         "Your job is to analyze Python test failures and determine the root cause.\n"
         "Return ONLY valid JSON with exactly these fields:\n"
         "{\n  \"failure_type\": \"test_failure | syntax_error | dependency_error | unknown\",\n  \"severity\": \"low | medium | high\",\n  \"root_cause\": \"short explanation of the real cause\",\n  \"confidence\": 0.0,\n  \"explanation\": \"clear explanation of why the failure happened\",\n  \"recommended_fix\": \"specific action the developer should take\"\n}\n"
@@ -80,7 +80,7 @@ def main():
         "Return only JSON.\n"
         f"Repository: {repository_name}\n"
         f"Failing Step: {step_name}\n"
-        f"Failure logs:\n{log}\n"
+        f"Failure logs:\n{log}\n\nAssistant:"
     )
 
     # Call AWS Bedrock Claude
