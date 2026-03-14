@@ -28,9 +28,12 @@ jobs:
           pip install -r app/requirements.txt
 
       - name: Run pytest (intentional fail)
+        id: pytest
         run: |
+          set +e
           pytest | tee pytest-output.txt
-        continue-on-error: true
+          echo "PYTEST_EXIT_CODE=$?" >> $GITHUB_ENV
+          exit 0
         
       - name: Configure AWS credentials
         if: always()
@@ -50,3 +53,9 @@ jobs:
           python scripts/analyze_failure.py failure_context.json analysis-output.json
           cat analysis-output.json
           python scripts/print_markdown_summary.py analysis-output.json >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Fail if tests failed
+        if: env.PYTEST_EXIT_CODE != '0'
+        run: |
+          echo "Tests failed. Failing the pipeline after AI analysis."
+          exit 1
