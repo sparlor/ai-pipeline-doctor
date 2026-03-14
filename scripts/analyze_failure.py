@@ -92,7 +92,8 @@ def main():
             "messages": [
                 {"role": "user", "content": prompt}
             ],
-            "max_tokens": 512
+            "max_tokens": 512,
+            "anthropic_version": "bedrock-2023-05-31"
         }
         response = client.invoke_model(
             modelId=model_id,
