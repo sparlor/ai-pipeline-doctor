@@ -35,6 +35,7 @@ jobs:
           PYTHONPATH: .:app
         run: |
           pytest | tee pytest-output.txt
+          echo "PYTEST_EXIT_CODE=${PIPESTATUS[0]}" >> $GITHUB_ENV
         
       - name: Configure AWS credentials
         if: always()
@@ -55,8 +56,8 @@ jobs:
           cat analysis-output.json
           python scripts/print_markdown_summary.py analysis-output.json >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Fail if any previous step failed
-        if: failure() && always()
+      - name: Fail if tests failed
+        if: always() && env.PYTEST_EXIT_CODE != '0'
         run: |
-          echo "A previous step failed. Failing the pipeline after AI analysis."
+          echo "Tests failed. Failing the pipeline after AI analysis."
           exit 1
