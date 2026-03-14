@@ -31,6 +31,8 @@ jobs:
       - name: Run pytest (intentional fail)
         id: pytest
         continue-on-error: true
+        env:
+          PYTHONPATH: app
         run: |
           pytest | tee pytest-output.txt
         
