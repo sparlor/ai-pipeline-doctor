@@ -87,14 +87,24 @@ def main():
     try:
         client = boto3.client("bedrock-runtime", region_name=os.environ.get("AWS_REGION", "us-east-1"))
         model_id = "anthropic.claude-3-haiku-20240307-v1:0"
+        # Use Messages API for Claude 3
+        body = {
+            "messages": [
+                {"role": "user", "content": prompt}
+            ],
+            "max_tokens": 512
+        }
         response = client.invoke_model(
             modelId=model_id,
             contentType="application/json",
             accept="application/json",
-            body=json.dumps({"prompt": prompt, "max_tokens_to_sample": 512})
+            body=json.dumps(body)
         )
         result_json = json.loads(response["body"].read())
-        ai_output = result_json.get("completion", "")
+        # Claude 3 returns output in 'content' field of the first message in 'content' list
+        ai_output = ""
+        if "content" in result_json and isinstance(result_json["content"], list) and result_json["content"]:
+            ai_output = result_json["content"][0].get("text", "")
         # Try to parse the output as JSON
         try:
             ai_result = json.loads(ai_output)
