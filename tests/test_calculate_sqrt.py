@@ -1,5 +1,5 @@
 import pytest
-from app.calculate_sqrt import calculate_sqrt
+from ..app.calculate_sqrt import calculate_sqrt
 
 def test_calculate_sqrt_pass():
     assert calculate_sqrt(9) == 3
