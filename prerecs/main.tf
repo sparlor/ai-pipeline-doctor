@@ -47,7 +47,7 @@ resource "aws_iam_role" "github_actions" {
 				Action = "sts:AssumeRoleWithWebIdentity"
 				Condition = {
 					StringLike = {
-						"token.actions.githubusercontent.com:sub" = "repo:sparlor/ai-aws-bedrock-terraform:*"
+						"token.actions.githubusercontent.com:sub" = "repo:sparlor/ai-pipeline-doctor:*"
 					}
 				}
 			}
